@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Институт</title>
+ <style>
+      :root {
+      --blue-1: #1e3a8a;
+      --blue-2: #2563eb;
+      --blue-3: #3b82f6;
+      --blue-4: #60a5fa;
+      --btn-radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      height: 100%; 
+      font-family: Arial, sans-serif; 
+          background: linear-gradient(to bottom, #ffffff, #2563eb);
+  color: #0f172a;
+      text-align: center; /* Выравниваем текст по центру */
+    }
+
+    .wrap {
+      max-width: 420px;
+      margin: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Центровка элементов */
+    }
+
+    .header {
+      display: flex;
+      justify-content: center; /* Центрируем по горизонтали */
+      align-items: center;
+      gap: 160px;
+      width: 100%;
+      padding: 5px 0;
+	 
+    }
+
+    .brand-icon {
+      background: #fff;
+      border-radius: 50%;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    }
+    .brand-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+      align-items: center; /* Центровка кнопок */
+      width: 100%;
+    }
+
+    .btn {
+      display: block;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: var(--btn-radius);
+      background-image: linear-gradient(to top, var(--blue-1), var(--blue-2), var(--blue-3), var(--blue-4));
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgba(30,58,138,.35);
+      transition: transform .08s ease, filter .08s ease;
+      margin: 0 auto; /* Центровка кнопок */
+    }
+    .btn:active { transform: translateY(1px) scale(.99); filter: brightness(.95); }
+
+    .btn--small { width: auto; padding: 10px 12px; font-size: 14px; border-radius: 14px; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      text-align: center; /* Центровка текста внутри карточки */
+    }
+
+    .actions {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content: center; /* Центровка кнопок внутри actions */
+      margin-top: 12px;
+    }
+
+    .screen { display: none; }
+    .screen:target { display: block; }
+    body:not(:has(:target)) #home { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- Главная -->
+    <div id="home" class="screen">
+      <div class="header">
+        <div class="brand-icon">
+          <img src="logo.png" alt="Институт" />
+        </div>
+        <a href="#view3d" class="btn btn--small">3D тур</a>
+      </div>
+
+      <div class="grid">
+        <a href="#pk" class="btn">Повышение квалификации</a>
+        <a href="#pp" class="btn">Переподготовка</a>
+        <a href="#courses" class="btn">Обучающие курсы</a>
+        <a href="#pay" class="btn">Оплата за обучение</a>
+        <a href="#moodle" class="btn">Инструкция Moodle</a>
+      </div>
+    </div>
+
+    <!-- 3D тур -->
+    <div id="view3d" class="screen">
+      <div class="card">
+        <h1>3D тур</h1>
+        <p>Ознакомьтесь с интерактивной 3D-панорамой института.</p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/images/tour/Index.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Повышение квалификации -->
+    <div id="pk" class="screen">
+      <div class="card">
+        <h2>Повышение квалификации</h2>
+        <p>Краткосрочные программы для специалистов.</p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/index.php/obrazovanie/povyshenie-kvalifikatsii.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Переподготовка -->
+    <div id="pp" class="screen">
+      <div class="card">
+        <h2>Переподготовка</h2>
+        <p style="text-align: justify;">Переподготовка кадров с высшим образованием осуществляется по специальности 9-09 0421-01 «Правоведение».</p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/index.php/obrazovanie/perepodgotovka.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Обучающие курсы -->
+    <div id="courses" class="screen">
+      <div class="card">
+        <h2>Обучающие курсы</h2>
+        <p style="text-align: justify;">
+          Курсы проводятся по 4 направлениям:<br>
+          1. Курсы в сфере медиации;<br>
+          2. Курсы для подготовки к аттестационному экзамену для получения свидетельства об аттестации риэлтера;<br>
+          3. Курсы по подготовке к квалификационному экзамену для соискателей лицензии на осуществление адвокатской деятельности;<br>
+          4. Курсы для подготовки к аттестационному экзамену для получения свидетельства об аттестации лица, оказывающего юридические услуги.
+        </p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/index.php/obrazovanie/obuchayushchie-kursy.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Оплата -->
+    <div id="pay" class="screen">
+      <div class="card">
+        <h2>Оплата за обучение</h2>
+        <p style="text-align: justify;">Удобные и безопасные способы оплаты.</p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/index.php/oplata.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Moodle -->
+    <div id="moodle" class="screen">
+      <div class="card">
+        <h2>Инструкция Moodle</h2>
+        <p style="text-align: justify;">Пошаговая инструкция по работе в системе Moodle.</p>
+        <div class="actions">
+          <a class="btn" href="https://lawinstitute.bsu.by/index.php/obrazovatelnyj-portal.html" target="_blank" rel="noopener">Перейти на сайт</a>
+          <a class="btn" href="#home">Назад</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+
