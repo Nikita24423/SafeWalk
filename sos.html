@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SafeWalk - SOS отправлен</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <input class="role-toggle" id="role-toggle" type="checkbox">
+            <label class="role-switch" for="role-toggle">
+                <span class="peaceful-text">Мирный</span>
+                <span class="guardian-text">Защитник</span>
+            </label>
+        </div>
+        
+        <h1>🆘 SOS отправлен!</h1>
+        <div class="meta"> Пользователь: 000001</div>
+        <div class="status">📍 Текущие координаты: 53.9006, 27.5590</div>
+        
+    </div>
+    
+    <nav class="bottom-nav">
+        <a class="nav-link" href="call.html">Звонок</a>
+        <a class="nav-link sos active" href="sos.html"><span>🚨</span></a>
+        <a class="nav-link" href="profile.html">Профиль</a>
+    </nav>
+
+    <script>
+    (function () {
+        const KEY = "safewalk_role";
+        const toggle = document.getElementById("role-toggle");
+        
+        const normalize = (v) => (v === "guardian" ? "guardian" : "peaceful");
+        
+        const readRole = () => {
+            const fromStorage = localStorage.getItem(KEY);
+            if (fromStorage) return normalize(fromStorage);
+            if (toggle) return toggle.checked ? "guardian" : "peaceful";
+            return "peaceful";
+        };
+        
+        const applyRole = (role) => {
+            const normalized = normalize(role);
+            localStorage.setItem(KEY, normalized);
+            if (toggle) toggle.checked = normalized === "guardian";
+        };
+        
+        applyRole(readRole());
+        
+        if (toggle) {
+            toggle.addEventListener("change", function () {
+                applyRole(toggle.checked ? "guardian" : "peaceful");
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SafeWalk - Панель хранителя</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <input class="role-toggle" id="role-toggle" type="checkbox">
+            <label class="role-switch" for="role-toggle">
+                <span class="peaceful-text">Мирный</span>
+                <span class="guardian-text">Защитник</span>
+            </label>
+        </div>
+        
+        <h1>Панель хранителя</h1>
+        <div class="meta">Пользователь: Demo User</div>
+        <div class="status">📍 Точка: Минск (53.9006, 27.5590)</div>
+        
+        <div class="map-frame">
+            <iframe
+                title="Карта хранителя Google Maps - Минск"
+                src="https://maps.google.com/maps?q=53.9006,27.5590&z=16&output=embed">
+            </iframe>
+        </div>
+        
+        <a class="btn btn-primary" href="https://maps.google.com/?q=53.9006,27.5590">Открыть карту в отдельном окне</a>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a class="nav-link active" href="call.html">Звонок</a>
+        <a class="nav-link sos" href="sos.html"><span>🚨</span></a>
+        <a class="nav-link" href="profile.html">Профиль</a>
+    </nav>
+
+    <script>
+    (function () {
+        const KEY = "safewalk_role";
+        const toggle = document.getElementById("role-toggle");
+        
+        const normalize = (v) => (v === "guardian" ? "guardian" : "peaceful");
+        
+        const readRole = () => {
+            const fromStorage = localStorage.getItem(KEY);
+            if (fromStorage) return normalize(fromStorage);
+            if (toggle) return toggle.checked ? "guardian" : "peaceful";
+            return "peaceful";
+        };
+        
+        const applyRole = (role) => {
+            const normalized = normalize(role);
+            localStorage.setItem(KEY, normalized);
+            if (toggle) toggle.checked = normalized === "guardian";
+        };
+        
+        applyRole(readRole());
+        
+        if (toggle) {
+            toggle.addEventListener("change", function () {
+                applyRole(toggle.checked ? "guardian" : "peaceful");
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

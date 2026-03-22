@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SafeWalk - Профиль</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <button class="btn-payment" id="paymentBtn" style="background: #635bff; color: white; border: none; border-radius: 40px; padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                💳 Оплатить
+            </button>
+            <div>
+                <input class="role-toggle" id="role-toggle" type="checkbox">
+                <label class="role-switch" for="role-toggle">
+                    <span class="peaceful-text">Мирный</span>
+                    <span class="guardian-text">Защитник</span>
+                </label>
+            </div>
+        </div>
+        
+        <h1>Профиль</h1>
+        <div class="subtitle">Заполните данные пользователя SafeWalk</div>
+
+        <form class="profile-form" id="profile-form" action="#" method="post">
+            <label for="name">Имя</label>
+            <input id="name" name="name" type="text" placeholder="Введите имя" required autocomplete="name">
+
+            <label for="role">Роль</label>
+            <select id="role" name="role" required>
+                <option value="peaceful">Мирный</option>
+                <option value="guardian">Защитник</option>
+            </select>
+
+            <label for="route">Маршрут</label>
+            <input id="route" name="route" type="text" placeholder="Например: Дом - Работа" required autocomplete="off">
+
+            <label for="emergency_phone">Телефон экстренного вызова</label>
+            <input id="emergency_phone" name="emergency_phone" type="tel" placeholder="+375 (__) ___-__-__" required autocomplete="tel">
+
+            <p class="profile-saved-msg" id="profile-saved-msg" role="status" aria-live="polite" hidden>Сохранено</p>
+            <button class="btn btn-primary profile-save-btn" type="submit">💾 Сохранить</button>
+        </form>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a class="nav-link" href="call.html">Звонок</a>
+        <a class="nav-link sos" href="sos.html"><span>🚨</span></a>
+        <a class="nav-link active" href="profile.html">Профиль</a>
+    </nav>
+
+    <script>
+    (function () {
+        const KEY = "safewalk_role";
+        const PROFILE_KEY = "safewalk_profile";
+        const toggle = document.getElementById("role-toggle");
+        const profileSelect = document.getElementById("role");
+        const form = document.getElementById("profile-form");
+        const savedMsg = document.getElementById("profile-saved-msg");
+
+        const normalize = (v) => (v === "guardian" ? "guardian" : "peaceful");
+
+        const readRole = () => {
+            const fromStorage = localStorage.getItem(KEY);
+            if (fromStorage) return normalize(fromStorage);
+            if (profileSelect && profileSelect.value) return normalize(profileSelect.value);
+            if (toggle) return toggle.checked ? "guardian" : "peaceful";
+            return "peaceful";
+        };
+
+        const applyRole = (role) => {
+            const normalized = normalize(role);
+            localStorage.setItem(KEY, normalized);
+            if (toggle) toggle.checked = normalized === "guardian";
+            if (profileSelect) profileSelect.value = normalized;
+        };
+
+        function loadProfileFields() {
+            const raw = localStorage.getItem(PROFILE_KEY);
+            if (!raw) return;
+            try {
+                const d = JSON.parse(raw);
+                const nameEl = document.getElementById("name");
+                const routeEl = document.getElementById("route");
+                const phoneEl = document.getElementById("emergency_phone");
+                if (nameEl && d.name != null) nameEl.value = d.name;
+                if (routeEl && d.route != null) routeEl.value = d.route;
+                if (phoneEl && d.emergency_phone != null) phoneEl.value = d.emergency_phone;
+                if (profileSelect && d.role != null) profileSelect.value = normalize(d.role);
+            } catch (e) {}
+        }
+
+        loadProfileFields();
+        applyRole(readRole());
+
+        if (toggle) {
+            toggle.addEventListener("change", function () {
+                applyRole(toggle.checked ? "guardian" : "peaceful");
+            });
+        }
+
+        if (profileSelect) {
+            profileSelect.addEventListener("change", function () {
+                applyRole(profileSelect.value);
+            });
+        }
+
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                const data = {
+                    name: document.getElementById("name").value.trim(),
+                    role: normalize(profileSelect ? profileSelect.value : "peaceful"),
+                    route: document.getElementById("route").value.trim(),
+                    emergency_phone: document.getElementById("emergency_phone").value.trim()
+                };
+                localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+                applyRole(data.role);
+                if (savedMsg) {
+                    savedMsg.hidden = false;
+                    clearTimeout(form._savedTimer);
+                    form._savedTimer = setTimeout(function () {
+                        savedMsg.hidden = true;
+                    }, 2500);
+                }
+            });
+        }
+
+        // === КНОПКА ОПЛАТЫ ===
+        const paymentBtn = document.getElementById("paymentBtn");
+        
+        // Замени на свой Publishable Key из Stripe Dashboard
+        const STRIPE_PUBLISHABLE_KEY = "pk_test_51TDj6YHbcDp4NhtipPAPIDVj0xwQBcTdLwo8FvVdQVJ5QMXBIx7zZoLtZxfFFhCGEZz7q1Qe18V6LAP3SFaxaUo800GMCEzVmF";
+        
+        // Создаём форму для перенаправления на Stripe Checkout
+        function redirectToStripe() {
+            // Получаем данные пользователя из localStorage
+            const profileRaw = localStorage.getItem(PROFILE_KEY);
+            let customerName = "Пользователь";
+            let customerEmail = "user@example.com";
+            
+            if (profileRaw) {
+                try {
+                    const profile = JSON.parse(profileRaw);
+                    if (profile.name) customerName = profile.name;
+                } catch (e) {}
+            }
+            
+            // Создаём временную форму и отправляем на сервер Stripe
+            // ВАЖНО: В реальном проекте нужно создать backend-эндпоинт,
+            // который создаёт Stripe Checkout Session и возвращает URL
+            
+            // ВРЕМЕННОЕ РЕШЕНИЕ (для демо) — перенаправляем на тестовую страницу
+            // В реальности нужно вызывать свой сервер
+            function redirectToStripe() {
+    const profileRaw = localStorage.getItem(PROFILE_KEY);
+    let customerName = "Пользователь";
+    
+    if (profileRaw) {
+        try {
+            const profile = JSON.parse(profileRaw);
+            if (profile.name) customerName = profile.name;
+        } catch (e) {}
+    }
+    
+        fetch('http://localhost:5000/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ customerName: customerName })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.url) {
+                window.location.href = data.url;
+            }
+        })
+        .catch(err => {
+            console.error('Ошибка:', err);
+            alert('Не удалось подключиться к серверу оплаты');
+        });
+    }
+            // Пример правильного подхода:
+            // fetch('/create-checkout-session', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ 
+            //         priceId: 'price_123456',  // ID товара в Stripe
+            //         customerName: customerName 
+            //     })
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            //     if (data.url) window.location.href = data.url;
+            // });
+        }
+        
+        if (paymentBtn) {
+            paymentBtn.addEventListener("click", redirectToStripe);
+        }
+    })();
+    </script>
+</body>
+</html>

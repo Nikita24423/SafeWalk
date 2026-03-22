@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SafeWalk - Звонок</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="checkbox" id="callToggle" class="call-toggle">
+    <div class="container">
+    <div class="call-screen">
+        <div class="top-bar">
+            <input class="role-toggle" id="role-toggle" type="checkbox">
+            <label class="role-switch" for="role-toggle">
+                <span class="peaceful-text">Мирный</span>
+                <span class="guardian-text">Защитник</span>
+            </label>
+        </div>
+
+        <div class="caller-info">
+            <div class="call-status"><span>placeholder</span></div>
+            <div class="caller-name">Служба безопасности</div>
+            <div class="caller-number">SafeWalk Help</div>
+        </div>
+
+        <div class="action-area">
+            <label for="callToggle" class="call-button">
+                <svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+            </label>
+
+            <div class="ringtone-container">
+                <audio autoplay>
+                    <source src="call.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <nav class="bottom-nav">
+        <a class="nav-link active" href="call.html">Звонок</a>
+        <a class="nav-link sos" href="sos.html"><span>🚨</span></a>
+        <a class="nav-link" href="profile.html">Профиль</a>
+    </nav>
+
+    <script>
+    (function () {
+        const KEY = "safewalk_role";
+        const toggle = document.getElementById("role-toggle");
+        
+        const normalize = (v) => (v === "guardian" ? "guardian" : "peaceful");
+        
+        const readRole = () => {
+            const fromStorage = localStorage.getItem(KEY);
+            if (fromStorage) return normalize(fromStorage);
+            if (toggle) return toggle.checked ? "guardian" : "peaceful";
+            return "peaceful";
+        };
+        
+        const applyRole = (role) => {
+            const normalized = normalize(role);
+            localStorage.setItem(KEY, normalized);
+            if (toggle) toggle.checked = normalized === "guardian";
+        };
+        
+        applyRole(readRole());
+        
+        if (toggle) {
+            toggle.addEventListener("change", function () {
+                applyRole(toggle.checked ? "guardian" : "peaceful");
+            });
+        }
+    })();
+    </script>
+</body>
+</html>
