@@ -700,3 +700,173 @@ input:focus, select:focus, textarea:focus {
         height: 280px;
     }
 }
+.sos-page {
+    background: linear-gradient(145deg, #fff5f0 0%, #ffe6e0 100%);
+    min-height: 100vh;
+    position: relative;
+}
+
+.sos-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 24px 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Чекбокс для переключения SOS */
+.sos-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* НАЧАЛЬНОЕ СОСТОЯНИЕ — большая круглая кнопка SOS */
+.sos-initial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.sos-button {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #dc2626, #b91c1c);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.sos-button:active {
+    transform: scale(0.97);
+}
+
+.sos-text {
+    font-size: 56px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sos-subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 12px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* СОСТОЯНИЕ ПОСЛЕ ОТПРАВКИ (скрыто по умолчанию) */
+.sos-sent {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.sos-success-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+}
+
+.sos-success-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #16a34a;
+    margin-bottom: 12px;
+}
+
+.sos-success-message {
+    font-size: 18px;
+    color: #2d6a4f;
+    margin-bottom: 24px;
+}
+
+.sos-coordinates {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 16px 24px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.coord-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #166534;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.coord-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f4f2d;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+.sos-note {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 20px;
+}
+
+/* ПЕРЕКЛЮЧЕНИЕ: когда чекбокс включён — скрываем кнопку, показываем сообщение */
+.sos-toggle:not(:checked) ~ .sos-container .sos-sent {
+    display: none;
+}
+
+.sos-toggle:not(:checked) ~ .sos-container .sos-initial {
+    display: flex;
+}
+
+.sos-toggle:checked ~ .sos-container .sos-initial {
+    display: none;
+}
+
+.sos-toggle:checked ~ .sos-container .sos-sent {
+    display: block;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность для SOS страницы */
+@media (max-width: 480px) {
+    .sos-button {
+        width: 180px;
+        height: 180px;
+    }
+    .sos-text {
+        font-size: 44px;
+    }
+    .sos-subtitle {
+        font-size: 14px;
+    }
+    .sos-success-title {
+        font-size: 26px;
+    }
+    .coord-value {
+        font-size: 16px;
+    }
+}
