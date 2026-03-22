@@ -859,3 +859,15 @@ input:focus, select:focus, textarea:focus {
         font-size: 16px;
     }
 }
+
+subtitle {
+    font-size: 18px;
+    color: #2d6a4f;
+    margin-bottom: 8px;
+}
+.status {
+    font-size: 14px;
+    color: #166534;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
