@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SafeWalk - SOS отправлен</title>
+    <title>SafeWalk - SOS</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
+<body class="sos-page">
+    <!-- Чекбокс для переключения состояния SOS -->
+    <input type="checkbox" id="sosToggle" class="sos-toggle">
+    
+    <div class="sos-container">
         <div class="top-bar">
             <input class="role-toggle" id="role-toggle" type="checkbox">
             <label class="role-switch" for="role-toggle">
@@ -16,10 +19,25 @@
             </label>
         </div>
         
-        <h1>🆘 SOS отправлен!</h1>
-        <div class="meta"> Пользователь: 000001</div>
-        <div class="status">📍 Текущие координаты: 53.9006, 27.5590</div>
+        <!-- НАЧАЛЬНОЕ СОСТОЯНИЕ: большая кнопка SOS -->
+        <div class="sos-initial">
+            <label for="sosToggle" class="sos-button">
+                <span class="sos-text">SOS</span>
+                <span class="sos-subtitle">Позвать на помощь</span>
+            </label>
+        </div>
         
+        <!-- СОСТОЯНИЕ ПОСЛЕ НАЖАТИЯ: сообщение об отправке -->
+        <div class="sos-sent">
+            <div class="sos-success-icon">🚨</div>
+            <h1 class="sos-success-title">SOS отправлен!</h1>
+            <p class="sos-success-message">Ваши координаты переданы хранителю</p>
+            <div class="sos-coordinates">
+                <span class="coord-label">📍 Текущее местоположение:</span>
+                <span class="coord-value">53.9006, 27.5590</span>
+            </div>
+            <p class="sos-note">Хранитель получил уведомление и отслеживает ваш маршрут</p>
+        </div>
     </div>
     
     <nav class="bottom-nav">
