@@ -867,6 +867,40 @@ subtitle {
 }
 .status {
     font-size: 14px;
+
+
+    .subtitlle {
+    font-size: 18px;
+    color: #2d6a4f;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.status ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.status li {
+    background: rgba(34, 197, 94, 0.15);
+    border-radius: 40px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #166534;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    transition: all 0.2s ease;
+}
+
+.status li:hover {
+    background: rgba(34, 197, 94, 0.25);
+    transform: translateY(-2px);
+}
     color: #166534;
     margin-bottom: 16px;
     font-weight: 500;
